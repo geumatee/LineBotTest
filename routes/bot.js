@@ -72,7 +72,7 @@ router.post('/',function(req, res){
 
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            fs.writeFile('downloaded.jpg', body, 'binary', function (err) {
+                            fs.writeFile('/app/public/downloaded.jpg', body, 'binary', function (err) {
                                 console.log(err);
                                 res.send(err);
                             });
@@ -90,7 +90,7 @@ router.post('/',function(req, res){
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     res.type('jpg'); 
-    res.end('downloaded.jpg', 'binary');
+    res.end('/app/public/downloaded.jpg', 'binary');
 });
 
 module.exports = router;
