@@ -28,7 +28,7 @@ router.post('/',function(req, res){
 
                 var data = {
                     'replytoken': req.body.events[i].replyToken,
-                    'message': [message]
+                    'messages': [message]
                 };
 
                 var headers = {
