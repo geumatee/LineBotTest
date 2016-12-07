@@ -73,9 +73,11 @@ router.post('/',function(req, res){
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
                             fs.writeFile('downloaded.jpg', body, 'binary', function (err) {
+                                console.log(err);
                                 res.send(err);
                             });
                         } else {
+                            console.log('error');
                             res.send("error");
                         }
                     });
