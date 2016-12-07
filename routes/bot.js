@@ -39,7 +39,7 @@ router.post('/',function(req, res){
                     url: 'https://api.line.me/v2/bot/message/reply',
                     method: 'POST',
                     headers: headers,
-                    body: JSON.parse(data)
+                    body: data
                 };
 
                 request(options, function (error, response, body) {
