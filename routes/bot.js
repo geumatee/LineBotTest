@@ -69,6 +69,8 @@ router.post('/',function(req, res){
                     };
 
                     request(options, function (error, response, body) {
+                        console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
+                        res.send(JSON.stringify(response));
                         if (!error && response.statusCode == 200) {
                             console.log(body);
                         }
