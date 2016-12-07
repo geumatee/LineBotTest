@@ -1,7 +1,7 @@
 /*eslint no-undef: "error"*/
 /*eslint-env node*/
 
-var app = require('express')();
+var app = require('express');
 var router = app.Router();
 // var bodyParser = require('body-parser');
 // var multer = require('multer'); // v1.0.5
