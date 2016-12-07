@@ -36,6 +36,7 @@ router.post('/',function(req, res){
                     'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
                 };
 
+                console.log(JSON.stringify(headers));
                 console.log(JSON.stringify(data));
 
                 var options = {
