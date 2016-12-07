@@ -12,12 +12,11 @@ var app = express();
 var bodyParser = require('body-parser');
 
 var firebase = require("firebase-admin");
-// var serviceAccount = require("/public/google-services.json");
 
-// firebase.initializeApp({
-//   credential: firebase.credential.cert(serviceAccount),
-//   databaseURL: "https://testfacebook-37d35.firebaseio.com"
-// });
+firebase.initializeApp({
+  credential: firebase.credential.cert("google-services.json"),
+  databaseURL: "https://testfacebook-37d35.firebaseio.com"
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
