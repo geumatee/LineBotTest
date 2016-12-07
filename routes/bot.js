@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 
 var request = require('request');
+var fs      = require('fs');
 
 var app = express();
 var bodyParser = require('body-parser');
@@ -70,10 +71,13 @@ router.post('/',function(req, res){
                     };
 
                     request(options, function (error, response, body) {
-                        console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
-                        res.send(JSON.stringify(response));
                         if (!error && response.statusCode == 200) {
-                            console.log(body);
+                            fs.writeFile('downloaded.jpg', body, 'binary', function (err) {
+                                res.send(err);
+                            });
+                            res.send("success");
+                        } else {
+                            res.send("error");
                         }
                     });
                 }
@@ -84,7 +88,8 @@ router.post('/',function(req, res){
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('bot respond with a resource');
+    res.type('jpg'); 
+    res.end('downloaded.jpg', 'binary');
 });
 
 module.exports = router;
