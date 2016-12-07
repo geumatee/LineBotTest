@@ -27,7 +27,7 @@ router.post('/',function(req, res){
                 };
 
                 var data = {
-                    'replytoken': req.body.events[i].replyToken,
+                    'replyToken': req.body.events[i].replyToken,
                     'messages': [message]
                 };
 
