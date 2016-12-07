@@ -22,13 +22,13 @@ router.post('/',function(req, res){
         for(i = 0; i < req.body.events.length; i++) {
             if(req.body.events[i].type == 'message' && req.body.events[i].message.type == 'text') {
                 var message = {
-                    type: 'text',
-                    text: req.body.events[i].message.text
+                    'type': 'text',
+                    'text': req.body.events[i].message.text
                 };
 
                 var data = {
-                    replytoken: req.body.events[i].replyToken,
-                    message: message
+                    'replytoken': req.body.events[i].replyToken,
+                    'message': message
                 };
 
                 var headers = {
