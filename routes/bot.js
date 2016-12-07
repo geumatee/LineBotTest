@@ -20,41 +20,60 @@ router.post('/',function(req, res){
     if(req.body != undefined) {
         console.log('request body: ' + JSON.stringify(req.body));
         var i;
+        var headers;
+        var options;
         for(i = 0; i < req.body.events.length; i++) {
-            if(req.body.events[i].type == 'message' && req.body.events[i].message.type == 'text') {
-                var message = {
-                    'type': 'text',
-                    'text': req.body.events[i].message.text
-                };
+            if(req.body.events[i].type == 'message') {
+                if(req.body.events[i].message.type == 'text') {
+                    var message = {
+                        'type': 'text',
+                        'text': req.body.events[i].message.text
+                    };
 
-                var data = {
-                    'replyToken': req.body.events[i].replyToken,
-                    'messages': [message]
-                };
+                    var data = {
+                        'replyToken': req.body.events[i].replyToken,
+                        'messages': [message]
+                    };
 
-                var headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
-                };
+                    headers = {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
+                    };
 
-                console.log(JSON.stringify(headers));
-                console.log(JSON.stringify(data));
+                    console.log(JSON.stringify(headers));
+                    console.log(JSON.stringify(data));
 
-                var options = {
-                    url: 'https://api.line.me/v2/bot/message/reply',
-                    proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(data)
-                };
+                    options = {
+                        url: 'https://api.line.me/v2/bot/message/reply',
+                        proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data)
+                    };
 
-                request(options, function (error, response, body) {
-                    console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
-                    res.send(JSON.stringify(response));
-                    if (!error && response.statusCode == 200) {
-                        console.log(body);
-                    }
-                });
+                    request(options, function (error, response, body) {
+                        console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
+                        res.send(JSON.stringify(response));
+                        if (!error && response.statusCode == 200) {
+                            console.log(body);
+                        }
+                    });
+                } else if(req.body.events[i].message.type == 'image') {
+                    headers = {
+                        'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
+                    };
+
+                    options = {
+                        url: 'https://api.line.me/v2/bot/message/' + req.body.events[i].message.id + '/content',
+                        headers: headers
+                    };
+
+                    request(options, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            console.log(body);
+                        }
+                    });
+                }
             }
         }
     }
