@@ -6,12 +6,18 @@ var express = require('express');
 var router = express.Router();
 
 var request = require('request');
-var fs      = require('fs');
+// var fs      = require('fs');
 
 var app = express();
 var bodyParser = require('body-parser');
-// var multer = require('multer'); // v1.0.5
-// var upload = multer(); // for parsing multipart/form-data
+
+var firebase = require("firebase-admin");
+var serviceAccount = require("google-services.json");
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: "https://testfacebook-37d35.firebaseio.com"
+});
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -72,9 +78,17 @@ router.post('/',function(req, res){
 
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            fs.writeFile('/app/public/downloaded.jpg', body, 'binary', function (err) {
-                                console.log(err);
-                                res.send(err);
+                            // fs.writeFile('/app/public/downloaded.jpg', body, 'binary', function (err) {
+                            //     console.log(err);
+                            //     res.send(err);
+                            // });
+                            var metadata = {
+                                contentType: 'image/jpeg',
+                            };
+                            var imageRef = firebase.storage().ref().child('image.jpg');
+                            imageRef.put(body, metadata).then(function(snapshot){
+                                console.log('success');
+                                res.send('success');
                             });
                         } else {
                             console.log('error');

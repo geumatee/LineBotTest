@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "871770198024",
+    "firebase_url": "https://testfacebook-37d35.firebaseio.com",
+    "project_id": "testfacebook-37d35",
+    "storage_bucket": "testfacebook-37d35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871770198024:android:1b59e6d91bb57a0f",
+        "android_client_info": {
+          "package_name": "com.geumatee.testfacebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871770198024-1ivds74l01ccpgut73n6iotanqv59oim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geumatee.testfacebook",
+            "certificate_hash": "5105472126DAD1C186A517FF750C11A18BA204CC"
+          }
+        },
+        {
+          "client_id": "871770198024-lsk6d21h90osb4vicn5u7g5417ac0cud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCowBSexQgFA1CB46ud3jZCFbbgpR3ZPWI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871770198024-lsk6d21h90osb4vicn5u7g5417ac0cud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
