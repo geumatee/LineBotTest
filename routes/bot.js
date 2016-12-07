@@ -12,7 +12,7 @@ var app = express();
 var bodyParser = require('body-parser');
 
 var firebase = require("firebase-admin");
-var serviceAccount = require("/google-services.json");
+var serviceAccount = require("../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json");
 
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
