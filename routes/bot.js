@@ -41,6 +41,7 @@ router.post('/',function(req, res){
 
                 var options = {
                     url: 'https://api.line.me/v2/bot/message/reply',
+                    proxy: 'http://fixie:DDBn6cK8KwwE1BK@velodrome.usefixie.com:80',
                     method: 'POST',
                     headers: JSON.stringify(headers),
                     body: JSON.stringify(data)
