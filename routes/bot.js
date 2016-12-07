@@ -41,8 +41,8 @@ router.post('/',function(req, res){
                 var options = {
                     url: 'https://api.line.me/v2/bot/message/reply',
                     method: 'POST',
-                    headers: headers,
-                    body: data
+                    headers: JSON.stringify(headers),
+                    body: JSON.stringify(data)
                 };
 
                 request(options, function (error, response, body) {
