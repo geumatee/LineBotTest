@@ -75,7 +75,6 @@ router.post('/',function(req, res){
                             fs.writeFile('downloaded.jpg', body, 'binary', function (err) {
                                 res.send(err);
                             });
-                            res.send("success");
                         } else {
                             res.send("error");
                         }
