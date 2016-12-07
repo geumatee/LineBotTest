@@ -18,15 +18,16 @@ app.use(bodyParser.urlencoded({
 
 router.post('/',function(req, res){
     if(req.body != undefined) {
-        req.body.forEach(function(element) {
-            if(element.type == 'message' && element.message.type == 'text') {
+        var i;
+        for(i = 0; i < req.body.events.length; i++) {
+            if(req.body.events[i].type == 'message' && req.body.events[i].message.type == 'text') {
                 var message = {
                     type: 'text',
-                    text: element.message.text
+                    text: req.body.events[i].message.text
                 };
 
                 var data = {
-                    replytoken: element.replytoken,
+                    replytoken: req.body.events[i].replyToken,
                     message: message
                 };
 
@@ -50,7 +51,7 @@ router.post('/',function(req, res){
                     }
                 });
             }
-        }, this);
+        }
     }
 });
 
