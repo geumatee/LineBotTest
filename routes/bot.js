@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 
 router.post('/',function(req, res){
     if(req.body != undefined) {
-        console.log('request body: ' + req.body);
+        console.log('request body: ' + JSON.stringify(req.body));
         var i;
         for(i = 0; i < req.body.events.length; i++) {
             if(req.body.events[i].type == 'message' && req.body.events[i].message.type == 'text') {
