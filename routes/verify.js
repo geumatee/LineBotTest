@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 
     var options = {
         url: 'https://api.line.me/v1/oauth/verify',
-        proxy: 'http://fixie:DDBn6cK8KwwE1BK@velodrome.usefixie.com:80',
+        // proxy: 'http://fixie:DDBn6cK8KwwE1BK@velodrome.usefixie.com:80',
         headers: headers
     };
 
