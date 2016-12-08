@@ -16,6 +16,8 @@ var gcs = require('@google-cloud/storage')({
   keyFilename: '../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json'
 });
 
+var streamifier = require('streamifier');
+
 var bucket = gcs.bucket('testfacebook-37d35.appspot.com');
 
 app.use(bodyParser.urlencoded({
@@ -79,28 +81,28 @@ router.post('/',function(req, res){
 
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            console.log('type: ' + typeof(body));
-                            console.log('content: ' + body);
-                            console.log('content json: ' + JSON.stringify(body));
-                            res.send(typeof(body));
+                            // console.log('type: ' + typeof(body));
+                            // console.log('content: ' + body);
+                            // console.log('content json: ' + JSON.stringify(body));
+                            // res.send(typeof(body));
 
-                            // var blob = bucket.file("test.jpg");
-                            // var blobStream = blob.createWriteStream({
-                            //     metadata: {
-                            //         contentType: 'image/jpeg',
-                            //         metadata: {
-                            //             custom: 'metadata'
-                            //         }
-                            //     }
-                            // }).on('error', function(err){
-                            //     console.log('error: ' + err);
-                            //     res.send("error: " + err);
-                            //     return;
-                            // }).on('finish', function(){
-                            //     console.log('success');
-                            //     res.status(200).send('success');
-                            // });
-                            // body.pipe(blobStream);
+                            var blob = bucket.file("test.jpg");
+                            var blobStream = blob.createWriteStream({
+                                metadata: {
+                                    contentType: 'image/jpeg',
+                                    metadata: {
+                                        custom: 'metadata'
+                                    }
+                                }
+                            }).on('error', function(err){
+                                console.log('error: ' + err);
+                                res.send("error: " + err);
+                                return;
+                            }).on('finish', function(){
+                                console.log('success');
+                                res.status(200).send('success');
+                            });
+                            streamifier.createReadStream(body).pipe(blobStream);
                         } else {
                             console.log('error');
                             res.send("error");
