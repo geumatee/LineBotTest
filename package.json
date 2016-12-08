@@ -6,10 +6,12 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@google-cloud/storage": "^0.5.0",
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.14.0",
+    "fast-crc32c": "^1.0.4",
     "firebase-admin": "^4.0.4",
     "fs": "0.0.1-security",
     "jade": "~1.11.0",

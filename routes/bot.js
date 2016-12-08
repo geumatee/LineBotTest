@@ -11,13 +11,12 @@ var request = require('request');
 var app = express();
 var bodyParser = require('body-parser');
 
-var firebase = require("firebase-admin");
-var serviceAccount = require("../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json");
-
-firebase.initializeApp({
-  credential: firebase.credential.cert(serviceAccount),
-  databaseURL: "https://testfacebook-37d35.firebaseio.com"
+var gcs = require('@google-cloud/storage')({
+  projectId: '<projectID>',
+  keyFilename: '../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json'
 });
+
+var bucket = gcs.bucket('testfacebook-37d35.appspot.com');
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -82,14 +81,34 @@ router.post('/',function(req, res){
                             //     console.log(err);
                             //     res.send(err);
                             // });
-                            var metadata = {
+                            // var metadata = {
+                            //     contentType: 'image/jpeg',
+                            // };
+                            // var imageRef = firebase.storage().ref().child('image.jpg');
+                            // imageRef.put(body, metadata).then(function(snapshot){
+                            //     console.log('success');
+                            //     res.send('success');
+                            // });
+
+                            // bucket.upload()
+                            var blob = bucket.file(body.originalname);
+                            var blobStream = blob.createWriteStream({
+                                metadata: {
                                 contentType: 'image/jpeg',
-                            };
-                            var imageRef = firebase.storage().ref().child('image.jpg');
-                            imageRef.put(body, metadata).then(function(snapshot){
+                                metadata: {
+                                    custom: 'metadata'
+                                }
+                                }
+                            }).on('error', function(err){
+                                console.log('error: ' + err);
+                                res.send("error: " + err);
+                                return;
+                            }).on('finish', function(){
                                 console.log('success');
-                                res.send('success');
+                                res.status(200).send('success');
                             });
+
+                            blobStream.end(body.buffer);
                         } else {
                             console.log('error');
                             res.send("error");
