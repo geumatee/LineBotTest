@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 
 var gcs = require('@google-cloud/storage')({
   projectId: '<projectID>',
-  keyFilename: '../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json'
+  keyFilename: '/app/testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json'
 });
 
 var streamifier = require('streamifier');
