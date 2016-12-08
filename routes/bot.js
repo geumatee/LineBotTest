@@ -72,7 +72,9 @@ router.post('/',function(req, res){
                     options = {
                         url: 'https://api.line.me/v2/bot/message/' + req.body.events[i].message.id + '/content',
                         proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
-                        headers: headers
+                        headers: headers,
+                        encoding: null,
+                        method: 'GET'
                     };
 
                     request(options, function (error, response, body) {
