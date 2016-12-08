@@ -91,13 +91,13 @@ router.post('/',function(req, res){
                             // });
 
                             // bucket.upload()
-                            var blob = bucket.file(body.originalname);
+                            var blob = bucket.file("test.jpg");
                             var blobStream = blob.createWriteStream({
                                 metadata: {
-                                contentType: 'image/jpeg',
-                                metadata: {
-                                    custom: 'metadata'
-                                }
+                                    contentType: 'image/jpeg',
+                                    metadata: {
+                                        custom: 'metadata'
+                                    }
                                 }
                             }).on('error', function(err){
                                 console.log('error: ' + err);
@@ -107,8 +107,7 @@ router.post('/',function(req, res){
                                 console.log('success');
                                 res.status(200).send('success');
                             });
-
-                            blobStream.end(body.buffer);
+                            body.pipe(blobStream);
                         } else {
                             console.log('error');
                             res.send("error");
