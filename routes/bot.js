@@ -11,11 +11,9 @@ var request = require('request');
 var app = express();
 var bodyParser = require('body-parser');
 
-var keyfile = require('../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json');
-
 var gcs = require('@google-cloud/storage')({
   projectId: '<projectID>',
-  keyFilename: keyfile
+  keyFilename: '../testfacebook-37d35-firebase-adminsdk-xjhtw-a095d994f6.json'
 });
 
 var streamifier = require('streamifier');
