@@ -117,7 +117,11 @@ router.post('/',function(req, res){
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     res.type('jpg'); 
-    res.end('/app/public/downloaded.jpg', 'binary');
+    var file = bucket.file("test.jpg");
+    file.download().then(function(data) {
+        var contents = data[0];
+        res.end(contents, 'binary');
+    });
 });
 
 module.exports = router;
