@@ -79,39 +79,28 @@ router.post('/',function(req, res){
 
                     request(options, function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            console.log(typeof(body));
-                            // res.send(typeof(body));
-                            // fs.writeFile('/app/public/downloaded.jpg', body, 'binary', function (err) {
-                            //     console.log(err);
-                            //     res.send(err);
-                            // });
-                            // var metadata = {
-                            //     contentType: 'image/jpeg',
-                            // };
-                            // var imageRef = firebase.storage().ref().child('image.jpg');
-                            // imageRef.put(body, metadata).then(function(snapshot){
-                            //     console.log('success');
-                            //     res.send('success');
-                            // });
+                            console.log('type: ' + typeof(body));
+                            console.log('content: ' + body);
+                            console.log('content json: ' + JSON.stringify(body));
+                            res.send(typeof(body));
 
-                            // bucket.upload()
-                            var blob = bucket.file("test.jpg");
-                            var blobStream = blob.createWriteStream({
-                                metadata: {
-                                    contentType: 'image/jpeg',
-                                    metadata: {
-                                        custom: 'metadata'
-                                    }
-                                }
-                            }).on('error', function(err){
-                                console.log('error: ' + err);
-                                res.send("error: " + err);
-                                return;
-                            }).on('finish', function(){
-                                console.log('success');
-                                res.status(200).send('success');
-                            });
-                            body.pipe(blobStream);
+                            // var blob = bucket.file("test.jpg");
+                            // var blobStream = blob.createWriteStream({
+                            //     metadata: {
+                            //         contentType: 'image/jpeg',
+                            //         metadata: {
+                            //             custom: 'metadata'
+                            //         }
+                            //     }
+                            // }).on('error', function(err){
+                            //     console.log('error: ' + err);
+                            //     res.send("error: " + err);
+                            //     return;
+                            // }).on('finish', function(){
+                            //     console.log('success');
+                            //     res.status(200).send('success');
+                            // });
+                            // body.pipe(blobStream);
                         } else {
                             console.log('error');
                             res.send("error");
