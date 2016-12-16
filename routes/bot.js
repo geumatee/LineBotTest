@@ -139,7 +139,7 @@ function getImageAndRespond(options, event, res) {
                             'fname': 'fname',
                             'lname': 'lname',
                             'email': 'email',
-                            'profile_url': 'profile_url',
+                            'profile_url': 'https://scontent.fbkk1-1.fna.fbcdn.net/v/t1.0-9/14729191_1472043079479631_8245407129914406397_n.jpg?oh=3c27e86453f95fd0dbf0aedd4ff2209f&oe=58B68AF9',
                             'share': 'share'
                         };
 
