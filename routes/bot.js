@@ -86,23 +86,55 @@ router.post('/',function(req, res){
                             // console.log('content json: ' + JSON.stringify(body));
                             // res.send(typeof(body));
 
-                            var blob = bucket.file("test.jpg");
-                            var blobStream = blob.createWriteStream({
-                                metadata: {
-                                    contentType: 'image/jpeg',
-                                    metadata: {
-                                        custom: 'metadata'
-                                    }
+                            // var blob = bucket.file("test.jpg");
+                            // var blobStream = blob.createWriteStream({
+                            //     metadata: {
+                            //         contentType: 'image/jpeg',
+                            //         metadata: {
+                            //             custom: 'metadata'
+                            //         }
+                            //     }
+                            // }).on('error', function(err){
+                            //     console.log('error: ' + err);
+                            //     res.send("error: " + err);
+                            //     return;
+                            // }).on('finish', function(){
+                            //     console.log('success');
+                            //     res.status(200).send('success');
+                            // });
+                            // streamifier.createReadStream(body).pipe(blobStream);
+                            var photo_meta = {
+                                        'id': '999999999',
+                                        'fname': 'fname',
+                                        'lname': 'lname',
+                                        'email': 'email',
+                                        'profile_url': 'profile_url',
+                                        'share': 'share'
+                                    };
+
+                            var headers = {
+                                'Content-Type': 'multipart/form-data'
+                                };
+
+                            var formData = {
+                                hashtag: 'selfitest',
+                                photo_meta: JSON.stringify(photo_meta),
+                                photo_file: body
+                            };
+
+                            console.log("########formData######" + formData);
+                            console.log("########photo_meta######" + formData.photo_meta);
+                            console.log("########photo_file######" + formData.photo_file);
+
+
+                            request.post({url:'https://stormy-ravine-12403.herokuapp.com/', formData: formData, headers: headers}, function optionalCallback(err, httpResponse, body) {
+                                if (err) {
+                                    console.error('upload failed:', err);
+                                } else {
+                                    console.log('Upload successful!  Server responded with:', body);
                                 }
-                            }).on('error', function(err){
-                                console.log('error: ' + err);
-                                res.send("error: " + err);
-                                return;
-                            }).on('finish', function(){
-                                console.log('success');
-                                res.status(200).send('success');
                             });
-                            streamifier.createReadStream(body).pipe(blobStream);
+
                         } else {
                             console.log('error');
                             res.send("error");
