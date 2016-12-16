@@ -50,7 +50,7 @@ router.post('/',function(req, res){
                         method: 'GET'
                     };
                     
-                    getImageAndRespond(options, req.body.events[i], res);
+                    getImage(options, req.body.events[i], res);
                     
                 }
             }
@@ -106,7 +106,7 @@ function respondMessage(text, replyToken, res) {
     });
 }
 
-function getImageAndRespond(options, event, res) {
+function getImage(options, event, res) {
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             // console.log('type: ' + typeof(body));
@@ -134,40 +134,63 @@ function getImageAndRespond(options, event, res) {
 
             console.log('image mime: ' + imageType(body).mime);
             if(imageType(body).mime == 'image/jpg' || imageType(body).mime == 'image/jpeg') {
-                var photo_meta = {
-                            'id': '999999999',
-                            'fname': 'fname',
-                            'lname': 'lname',
-                            'email': 'email',
-                            'profile_url': 'https://scontent.fbkk1-1.fna.fbcdn.net/v/t1.0-9/14729191_1472043079479631_8245407129914406397_n.jpg?oh=3c27e86453f95fd0dbf0aedd4ff2209f&oe=58B68AF9',
-                            'share': 'share'
-                        };
-
-                var headers = {
-                    'Content-Type': 'multipart/form-data'
-                    };
-
-
-                var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
-                    if (err) {
-                        console.error('upload failed:', err);
-                    } else {
-                        console.log('Upload successful!  Server responded with:', body);
-                    }
-                });
-
-                var form = reqPost.form();
-                form.append('hashtag', 'selfitest');
-                form.append('photo_meta', JSON.stringify(photo_meta));
-                form.append('photo_file', body, {
-                    filename: 'myfile.jpg',
-                    contentType: 'image/jpg'
-                });
+                getProfileImageAndRespond(event, body, res);
             } else {
                 respondMessage('กรุณา upload รูปประเภท jpg เท่านั้น', event.replyToken, res);
             }
 
         } else {
+            console.log('error');
+            res.send("error");
+        }
+    });
+}
+
+function getProfileImageAndRespond(event, image ,res) {
+    var headers = {
+        'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
+    };
+
+    var options = {
+        url: 'https://api.line.me/v2/bot/profile/' + event.source.userId,
+        proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
+        headers: headers,
+        method: 'GET'
+    };
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            console.log(JSON.stringify(body));
+            var photo_meta = {
+                        'id': '999999999',
+                        'fname': 'fname',
+                        'lname': 'lname',
+                        'email': 'email',
+                        'profile_url': 'https://scontent.fbkk1-1.fna.fbcdn.net/v/t1.0-9/14729191_1472043079479631_8245407129914406397_n.jpg?oh=3c27e86453f95fd0dbf0aedd4ff2209f&oe=58B68AF9',
+                        'share': 'share'
+                    };
+
+            var headers = {
+                'Content-Type': 'multipart/form-data'
+                };
+
+
+            var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
+                if (err) {
+                    console.error('upload failed:', err);
+                } else {
+                    console.log('Upload successful!  Server responded with:', body);
+                }
+            });
+
+            var form = reqPost.form();
+            form.append('hashtag', 'selfitest');
+            form.append('photo_meta', JSON.stringify(photo_meta));
+            form.append('photo_file', image, {
+                filename: 'myfile.jpg',
+                contentType: 'image/jpg'
+            });
+        }else {
             console.log('error');
             res.send("error");
         }
