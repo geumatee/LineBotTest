@@ -121,7 +121,7 @@ router.post('/',function(req, res){
                             // console.log("########photo_file######" + formData.photo_file);
 
 
-                            var reqPost = request.post({url:'https://stormy-ravine-12403.herokuapp.com/upload', headers: headers}, function optionalCallback(err, httpResponse, body) {
+                            var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
                                 if (err) {
                                     console.error('upload failed:', err);
                                 } else {
@@ -132,7 +132,7 @@ router.post('/',function(req, res){
                             var form = reqPost.form();
                             form.append('hashtag', 'selfitest');
                             form.append('photo_meta', JSON.stringify(photo_meta));
-                            form.append('file', body, {
+                            form.append('photo_file', body, {
                                 filename: 'myfile.jpg',
                                 contentType: 'image/jpg'
                             });
