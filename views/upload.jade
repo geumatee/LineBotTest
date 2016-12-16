@@ -1,0 +1,8 @@
+include layout
+    div.container
+        h2 Image Upload Form
+        form#fileUpload(method="post" action="/upload" enctype="multipart/form-data") 
+            label(for="payload") Select a file to upload:     
+            input#payload(type="file" name="myFile" accept="image/*") 
+            br 
+            button#upload Upload

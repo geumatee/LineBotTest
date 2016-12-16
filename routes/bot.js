@@ -127,7 +127,7 @@ router.post('/',function(req, res){
                             // console.log("########photo_file######" + formData.photo_file);
 
 
-                            request.post({url:'https://stormy-ravine-12403.herokuapp.com/', formData: formData, headers: headers}, function optionalCallback(err, httpResponse, body) {
+                            request.post({url:'https://stormy-ravine-12403.herokuapp.com/upload', formData: formData, headers: headers}, function optionalCallback(err, httpResponse, body) {
                                 if (err) {
                                     console.error('upload failed:', err);
                                 } else {

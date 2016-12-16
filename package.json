@@ -13,6 +13,7 @@
     "express": "~4.14.0",
     "fast-crc32c": "^1.0.4",
     "firebase-admin": "^4.0.4",
+    "formidable": "^1.0.17",
     "fs": "0.0.1-security",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
