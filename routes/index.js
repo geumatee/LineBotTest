@@ -3,6 +3,7 @@
 
 var express = require('express');
 var router = express.Router();
+var util = require('util');
 var bodyParser = require('body-parser');
 
 router.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -17,7 +18,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/',function(req, res){
   console.log('index post req: ' + req);
-  console.log('index post req json: ' + JSON.stringify(req));
+  console.log('index post req json: ' + util.inspect(req));
   res.send('index!');
 });
 
