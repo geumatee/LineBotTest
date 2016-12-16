@@ -159,14 +159,12 @@ function getProfileImageAndRespond(event, image ,res) {
     };
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            console.log(body);
-            console.log(JSON.stringify(body));
             var photo_meta = {
                         'id': '999999999',
                         'fname': 'fname',
                         'lname': 'lname',
                         'email': 'email',
-                        'profile_url': 'https://scontent.fbkk1-1.fna.fbcdn.net/v/t1.0-9/14729191_1472043079479631_8245407129914406397_n.jpg?oh=3c27e86453f95fd0dbf0aedd4ff2209f&oe=58B68AF9',
+                        'profile_url': body.pictureUrl,
                         'share': 'share'
                     };
 
@@ -175,13 +173,15 @@ function getProfileImageAndRespond(event, image ,res) {
                 };
 
 
-            var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
-                if (err) {
-                    console.error('upload failed:', err);
-                } else {
-                    console.log('Upload successful!  Server responded with:', body);
+            var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, 
+                function optionalCallback(err, httpResponse, body) {
+                    if (err) {
+                        console.error('upload failed:', err);
+                    } else {
+                        console.log('Upload successful!  Server responded with:', body);
+                    }
                 }
-            });
+            );
 
             var form = reqPost.form();
             form.append('hashtag', 'selfitest');
