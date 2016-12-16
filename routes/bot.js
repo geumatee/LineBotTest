@@ -133,7 +133,7 @@ function getImageAndRespond(options, event, res) {
             // streamifier.createReadStream(body).pipe(blobStream);
 
             console.log('image mime: ' + imageType(body).mime);
-            if(imageType(body).mime == 'image/jpg' || imageType(body).mime('image/jpeg')) {
+            if(imageType(body).mime == 'image/jpg' || imageType(body).mime == 'image/jpeg') {
                 var photo_meta = {
                             'id': '999999999',
                             'fname': 'fname',
