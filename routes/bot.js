@@ -8,6 +8,8 @@ var router = express.Router();
 var request = require('request');
 // var fs      = require('fs');
 
+var imageType = require('image-type');
+
 var app = express();
 var bodyParser = require('body-parser');
 
@@ -33,39 +35,8 @@ router.post('/',function(req, res){
         for(i = 0; i < req.body.events.length; i++) {
             if(req.body.events[i].type == 'message') {
                 if(req.body.events[i].message.type == 'text') {
-                    var message = {
-                        'type': 'text',
-                        'text': req.body.events[i].message.text
-                    };
+                    respondMessage(req.body.events[i].message.text, req.body.events[i].replyToken, res);
 
-                    var data = {
-                        'replyToken': req.body.events[i].replyToken,
-                        'messages': [message]
-                    };
-
-                    headers = {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
-                    };
-
-                    console.log(JSON.stringify(headers));
-                    console.log(JSON.stringify(data));
-
-                    options = {
-                        url: 'https://api.line.me/v2/bot/message/reply',
-                        proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
-                        method: 'POST',
-                        headers: headers,
-                        body: JSON.stringify(data)
-                    };
-
-                    request(options, function (error, response, body) {
-                        console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
-                        res.send(JSON.stringify(response));
-                        if (!error && response.statusCode == 200) {
-                            console.log(body);
-                        }
-                    });
                 } else if(req.body.events[i].message.type == 'image') {
                     headers = {
                         'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
@@ -103,39 +74,44 @@ router.post('/',function(req, res){
                             //     res.status(200).send('success');
                             // });
                             // streamifier.createReadStream(body).pipe(blobStream);
-                            var photo_meta = {
-                                        'id': '999999999',
-                                        'fname': 'fname',
-                                        'lname': 'lname',
-                                        'email': 'email',
-                                        'profile_url': 'profile_url',
-                                        'share': 'share'
+
+                            if(imageType(body).mime == 'image/jpg') {
+                                var photo_meta = {
+                                            'id': '999999999',
+                                            'fname': 'fname',
+                                            'lname': 'lname',
+                                            'email': 'email',
+                                            'profile_url': 'profile_url',
+                                            'share': 'share'
+                                        };
+
+                                var headers = {
+                                    'Content-Type': 'multipart/form-data'
                                     };
 
-                            var headers = {
-                                'Content-Type': 'multipart/form-data'
-                                };
-
-                            // console.log("########formData######" + formData);
-                            // console.log("########photo_meta######" + formData.photo_meta);
-                            // console.log("########photo_file######" + formData.photo_file);
+                                // console.log("########formData######" + formData);
+                                // console.log("########photo_meta######" + formData.photo_meta);
+                                // console.log("########photo_file######" + formData.photo_file);
 
 
-                            var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
-                                if (err) {
-                                    console.error('upload failed:', err);
-                                } else {
-                                    console.log('Upload successful!  Server responded with:', body);
-                                }
-                            });
+                                var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
+                                    if (err) {
+                                        console.error('upload failed:', err);
+                                    } else {
+                                        console.log('Upload successful!  Server responded with:', body);
+                                    }
+                                });
 
-                            var form = reqPost.form();
-                            form.append('hashtag', 'selfitest');
-                            form.append('photo_meta', JSON.stringify(photo_meta));
-                            form.append('photo_file', body, {
-                                filename: 'myfile.jpg',
-                                contentType: 'image/jpg'
-                            });
+                                var form = reqPost.form();
+                                form.append('hashtag', 'selfitest');
+                                form.append('photo_meta', JSON.stringify(photo_meta));
+                                form.append('photo_file', body, {
+                                    filename: 'myfile.jpg',
+                                    contentType: 'image/jpg'
+                                });
+                            } else {
+                                respondMessage('กรุณา upload รูปประเภท jpg เท่านั้น', req.body.events[i].replyToken, res);
+                            }
 
                         } else {
                             console.log('error');
@@ -159,3 +135,39 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+function respondMessage(text, replyToken, res) {
+    var message = {
+        'type': 'text',
+        'text': text
+    };
+
+    var data = {
+        'replyToken': replyToken,
+        'messages': [message]
+    };
+
+    var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer r66gB/QeQB9YKgvhT9QZoXmRuf0VIIIfsKiszE6+Qa0P2goun2p1hqBhuJwlTZNA5VOeojEffX95TJB162tqBXNWLxfuQzVlfuThpbzhtPhs9HddCEtj0+GxlJXufpEMAdHAhuu0INpJZxZudiYbYAdB04t89/1O/w1cDnyilFU='
+    };
+
+    console.log(JSON.stringify(headers));
+    console.log(JSON.stringify(data));
+
+    var options = {
+        url: 'https://api.line.me/v2/bot/message/reply',
+        proxy: 'http://fixie:IaHUTllshvVDVfU@velodrome.usefixie.com:80',
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data)
+    };
+
+    request(options, function (error, response, body) {
+        console.log("respond " + error + " " + JSON.stringify(response) + " " + JSON.stringify(body));
+        res.send(JSON.stringify(response));
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+        }
+    });
+}

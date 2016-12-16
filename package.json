@@ -15,6 +15,7 @@
     "firebase-admin": "^4.0.4",
     "formidable": "^1.0.17",
     "fs": "0.0.1-security",
+    "image-type": "^2.1.0",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "multer": "^1.2.0",
