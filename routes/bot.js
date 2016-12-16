@@ -160,15 +160,15 @@ function getProfileImageAndRespond(event, image ,res) {
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log('body: ' + body);
-            var pictureUrl = body.pictureUrl;
-            console.log('pictureUrl: ' + pictureUrl);
+            var bodyObject = JSON.parse(body);
+            console.log('pictureUrl: ' + bodyObject.pictureUrl);
             var photo_meta = {
-                        'id': '999999999',
-                        'fname': 'fname',
-                        'lname': 'lname',
-                        'email': 'email',
-                        'profile_url': body.pictureUrl,
-                        'share': 'share'
+                        'id': bodyObject.userId,
+                        'fname': bodyObject.displayName,
+                        'lname': '',
+                        'email': 'hello@selfiprint.com',
+                        'profile_url': bodyObject.pictureUrl,
+                        'share': 0
                     };
 
             var headers = {
