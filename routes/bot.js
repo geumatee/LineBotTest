@@ -159,6 +159,7 @@ function getProfileImageAndRespond(event, image ,res) {
     };
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            console.log('body: ' + body);
             var pictureUrl = body.pictureUrl;
             console.log('pictureUrl: ' + pictureUrl);
             var photo_meta = {
