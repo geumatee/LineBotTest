@@ -49,75 +49,9 @@ router.post('/',function(req, res){
                         encoding: null,
                         method: 'GET'
                     };
-
-                    request(options, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            // console.log('type: ' + typeof(body));
-                            // console.log('content: ' + body);
-                            // console.log('content json: ' + JSON.stringify(body));
-                            // res.send(typeof(body));
-
-                            // var blob = bucket.file("test.jpg");
-                            // var blobStream = blob.createWriteStream({
-                            //     metadata: {
-                            //         contentType: 'image/jpeg',
-                            //         metadata: {
-                            //             custom: 'metadata'
-                            //         }
-                            //     }
-                            // }).on('error', function(err){
-                            //     console.log('error: ' + err);
-                            //     res.send("error: " + err);
-                            //     return;
-                            // }).on('finish', function(){
-                            //     console.log('success');
-                            //     res.status(200).send('success');
-                            // });
-                            // streamifier.createReadStream(body).pipe(blobStream);
-
-                            if(imageType(body).mime == 'image/jpg') {
-                                var photo_meta = {
-                                            'id': '999999999',
-                                            'fname': 'fname',
-                                            'lname': 'lname',
-                                            'email': 'email',
-                                            'profile_url': 'profile_url',
-                                            'share': 'share'
-                                        };
-
-                                var headers = {
-                                    'Content-Type': 'multipart/form-data'
-                                    };
-
-                                // console.log("########formData######" + formData);
-                                // console.log("########photo_meta######" + formData.photo_meta);
-                                // console.log("########photo_file######" + formData.photo_file);
-
-
-                                var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
-                                    if (err) {
-                                        console.error('upload failed:', err);
-                                    } else {
-                                        console.log('Upload successful!  Server responded with:', body);
-                                    }
-                                });
-
-                                var form = reqPost.form();
-                                form.append('hashtag', 'selfitest');
-                                form.append('photo_meta', JSON.stringify(photo_meta));
-                                form.append('photo_file', body, {
-                                    filename: 'myfile.jpg',
-                                    contentType: 'image/jpg'
-                                });
-                            } else {
-                                respondMessage('กรุณา upload รูปประเภท jpg เท่านั้น', req.body.events[i].replyToken, res);
-                            }
-
-                        } else {
-                            console.log('error');
-                            res.send("error");
-                        }
-                    });
+                    
+                    getImageAndRespond(options, req.body.events[i], res);
+                    
                 }
             }
         }
@@ -168,6 +102,74 @@ function respondMessage(text, replyToken, res) {
         res.send(JSON.stringify(response));
         if (!error && response.statusCode == 200) {
             console.log(body);
+        }
+    });
+}
+
+function getImageAndRespond(options, event, res) {
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            // console.log('type: ' + typeof(body));
+            // console.log('content: ' + body);
+            // console.log('content json: ' + JSON.stringify(body));
+            // res.send(typeof(body));
+
+            // var blob = bucket.file("test.jpg");
+            // var blobStream = blob.createWriteStream({
+            //     metadata: {
+            //         contentType: 'image/jpeg',
+            //         metadata: {
+            //             custom: 'metadata'
+            //         }
+            //     }
+            // }).on('error', function(err){
+            //     console.log('error: ' + err);
+            //     res.send("error: " + err);
+            //     return;
+            // }).on('finish', function(){
+            //     console.log('success');
+            //     res.status(200).send('success');
+            // });
+            // streamifier.createReadStream(body).pipe(blobStream);
+
+            console.log('image mime: ' + imageType(body).mime);
+            if(imageType(body).mime == 'image/jpg') {
+                var photo_meta = {
+                            'id': '999999999',
+                            'fname': 'fname',
+                            'lname': 'lname',
+                            'email': 'email',
+                            'profile_url': 'profile_url',
+                            'share': 'share'
+                        };
+
+                var headers = {
+                    'Content-Type': 'multipart/form-data'
+                    };
+
+
+                var reqPost = request.post({url:'http://console.selfiprint.com/api/1.0/uploadPhoto', headers: headers}, function optionalCallback(err, httpResponse, body) {
+                    if (err) {
+                        console.error('upload failed:', err);
+                    } else {
+                        console.log('Upload successful!  Server responded with:', body);
+                    }
+                });
+
+                var form = reqPost.form();
+                form.append('hashtag', 'selfitest');
+                form.append('photo_meta', JSON.stringify(photo_meta));
+                form.append('photo_file', body, {
+                    filename: 'myfile.jpg',
+                    contentType: 'image/jpg'
+                });
+            } else {
+                respondMessage('กรุณา upload รูปประเภท jpg เท่านั้น', event.replyToken, res);
+            }
+
+        } else {
+            console.log('error');
+            res.send("error");
         }
     });
 }
