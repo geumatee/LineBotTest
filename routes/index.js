@@ -10,8 +10,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/',function(req, res){
-  console.log('index post req: ' + req);
-  console.log('index post req json: ' + JSON.stringify(req));
+  console.log('index post req: ' + req.body);
+  console.log('index post req json: ' + JSON.stringify(req.bode));
+  res.render('index!');
 });
 
 module.exports = router;
