@@ -122,9 +122,9 @@ router.post('/',function(req, res){
                                 photo_file: body
                             };
 
-                            console.log("########formData######" + formData);
-                            console.log("########photo_meta######" + formData.photo_meta);
-                            console.log("########photo_file######" + formData.photo_file);
+                            // console.log("########formData######" + formData);
+                            // console.log("########photo_meta######" + formData.photo_meta);
+                            // console.log("########photo_file######" + formData.photo_file);
 
 
                             request.post({url:'https://stormy-ravine-12403.herokuapp.com/', formData: formData, headers: headers}, function optionalCallback(err, httpResponse, body) {
