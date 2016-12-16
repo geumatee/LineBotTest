@@ -183,7 +183,7 @@ function getProfileImageAndRespond(event, image ,res) {
                 }
             );
 
-            console.log('photo_meta ' + photo_meta);
+            console.log('photo_meta ' + JSON.stringify(photo_meta));
 
             var form = reqPost.form();
             form.append('hashtag', 'selfitest');
