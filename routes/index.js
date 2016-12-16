@@ -18,8 +18,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/',function(req, res){
-  console.log('index post req: ' + req);
-  console.log('index post req json: ' + JSON.stringify(req));
+  console.log('index post req: ' + req.photo_file);
+  console.log('index post req json: ' + JSON.stringify(req.photo_file));
   res.render('index!');
 });
 
