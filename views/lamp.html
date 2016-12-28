@@ -23,6 +23,7 @@
 <body id="mainBody">
 <script>
     var socket = io();
+    var show = true;
     document.addEventListener("DOMContentLoaded", function(event) {
 
     // create a simple instance
@@ -35,13 +36,19 @@
     mc.on("panleft", function(ev) {
         console.log(ev.type + " gesture detected.");
         // alert(ev.type + " gesture detected.");
-        socket.emit('pan', '');
+        if(!show) {
+            show = true;
+            socket.emit('pan', '');
+        }
     });
 
     mc.on("tap", function(ev) {
         console.log(ev.type + " gesture detected.");
         // alert(ev.type + " gesture detected.");
-        socket.emit('tap', '');
+        if(show) {
+            show = false;
+            socket.emit('tap', '');
+        }
     });
   });
 </script>
