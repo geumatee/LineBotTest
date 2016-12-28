@@ -12,8 +12,15 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var bot = require('./routes/bot');
 var verify = require('./routes/verify');
+var lamp = require('./routes/lamp');
+var genie = require('./routes/genie');
 
 var app = express();
+
+var socket_io  = require( "socket.io" );
+
+var io           = socket_io();
+app.io           = io;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +38,8 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/bot',bot);
 app.use('/verify',verify);
+app.use('/lamp',lamp);
+app.use('/genie',genie);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -48,6 +57,21 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+  socket.on('pan', function(){
+    console.log('pan');
+    io.emit('emitPan','');
+  });
+  socket.on('tap', function(){
+    console.log('tap');
+    io.emit('emitTap','');
+  });
 });
 
 module.exports = app;

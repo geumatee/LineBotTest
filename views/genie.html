@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+    img {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
+        overflow: auto;
+    }
+    </style>
+</head>
+<body id="mainBody">
+<script>
+    var socket = io();
+    var show = true;
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var genie = document.getElementById('genie');
+        socket.on('emitPan', function(msg){
+            // genie.style.visibility = "visible";
+            if(!show) {
+                show = true;
+                $("#genie").animate({maxWidth: "100%",maxHeight: "100%"});
+            }
+        });
+
+        socket.on('emitTap', function(msg){
+            // genie.style.visibility = "hidden";
+            if(show) {
+                show = false;
+                $("#genie").animate({maxWidth: "0%",maxHeight: "0%"});
+            }
+        });
+  });
+</script>
+<img id='genie' src="/images/genie.png">
+
+</body>
+</html>
